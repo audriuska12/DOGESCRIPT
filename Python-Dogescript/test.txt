@@ -1,0 +1,4 @@
+File printing again!!!!
+Appending too! >>test.txt && echo "HACKS!!!"> hacks.txt 
+Newlines working!
+Reverse of 987654321 is 987654321

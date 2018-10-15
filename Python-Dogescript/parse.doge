@@ -1,0 +1,68 @@
+int a  = 1;
+
+int fibRec(int i){
+	if(i <= 0){
+		return 0;
+	}
+	else if (i <= 2){
+		return 1;
+	} else {
+		return fibRec(i - 1) + fibRec(i-2);
+	}
+}
+
+int fibLoop(int i){
+	if (i <= 0){
+		return 0;
+	} else if (i <= 2){
+		return 1;
+	} else {
+		int prev = 1;
+		int next = 1;
+		int j;
+		for(j = 3; j <=i; j++){
+			int tmp = prev + next;
+			prev = next;
+			next = tmp;
+		}
+		return next;
+	}
+}
+
+int reverse(int i){
+	int rez = 0;
+	while (i > 0){
+		rez = rez * 10 + i%10;
+		i = i/10;
+	}
+	return rez;
+}
+
+int main(){
+	printConsole("Fibonnacci 6 is: " + fibRec(6));
+	printConsole("Fibonacci 45 is: " + fibLoop(45));
+	int a = 2;
+	int b = 3;
+	int c = 4;
+	a <=> b <=> c;
+	printConsole(a);
+	printConsole(b);
+	printConsole(c);
+	int i = 0;
+	while (a < 10000){
+		i++;
+		printConsole("Iteration " + i + ": a = " + a + ", b = " + b);
+		if (a > b){
+			a <=> b;
+		} else {
+			a = a**b;
+		}
+	}
+	printConsole("String " + "concatenated!");
+	printFile("File printing again!!!!", "test.txt");
+	appendFile("Appending too! >>test.txt && echo \"HACKS!!!\"> hacks.txt ", "test.txt");
+	appendFile("Newlines working!", "test.txt");
+	int number = 123456789;
+	int rev = reverse(number);
+	appendFile("Reverse of " + rev + " is " + rev, "test.txt");
+}

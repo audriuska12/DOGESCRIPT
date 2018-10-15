@@ -1,0 +1,27 @@
+int main(){
+	/* KOMENTARAS*/
+	printConsole("\"Hello world!\"");
+    int a = 2;
+	dec d1 = 1.0;
+	dec d2 = 1d;
+	dec d3 = .1;
+    int j = /* KOMENT
+ARAS*/	a + 2 - 1;
+	int i;
+    for( i= 0; i < 10; i++ ){
+        a = a * 2 + 3;        
+    }
+	if ( a == j ){
+		a = j % 2 == 1 ? a : a-1;
+	}
+    if( a <=j | j <> 100 ){
+		a <=> j;
+	}else{
+		int i = 0;
+		while( i++ < a){
+			a--;
+		}
+		printConsole( a + j);
+	}
+	printConsole(2 * a / j);
+}

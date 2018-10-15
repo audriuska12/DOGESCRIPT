@@ -1,0 +1,165 @@
+"Name" = DOGESCRIPT
+
+"Case Sensitive" = True
+"Start Symbol" = <declarations>          
+
+!Type declarations     
+{idHead} = {letter} + [_]
+{idTail} = {idHead} + {digit}
+id = {idHead}+{idTail}*         
+
+intLiteral = [ +-]{digit}+
+decLiteral = [ +-]{digit}*(([.]{digit}+[d]?)|[d])
+
+{String Ch}      = {Printable} - ["]
+{Char Ch}        = {Printable} - ['']
+
+stringLiteral    = '"'( {String Ch} | '\'{Printable} )* '"'
+charLiteral      = '' ( {Char Ch} | '\'{Printable} )''
+
+!Declaration
+!-----------
+<declarations> ::= <declaration><declarations>
+                |
+<declaration> ::= <functionDeclaration>
+               |<functionPrototype>
+               |<variableDeclaration>
+!Function declaration
+!--------------------
+<functionPrototype>::=<functionID>'('<typeList>')'';'
+                    |<functionID>'('<params>')'';'
+                    |<functionID>'('')'';'
+
+<functionDeclaration>::=<functionID>'('<params>')'<block>
+                      |<functionID>'('<idList>')'<block>
+                      |<functionID>'('')'<block>
+
+<params>::=<params>','<param>
+         |<param>
+
+<param>::=!<type> <array> id
+        |<type><id>
+
+<typeList>::=<type>','<typeList>
+           |<type>
+
+<idList>::=id','<idList>
+         |id
+
+<functionID>::=<type>id
+             |id
+
+!Variable declaration
+!--------------------
+
+<variableDeclaration>::=<type><var>';'
+
+<var> ::=id
+       |id '='<opIf>
+
+<array> ::= '[' <expression> ']'
+         | '[' ']'
+         |
+
+!Types
+!-----
+
+<type>::=string
+       |int
+       |dec
+
+!Statements
+!----------
+<statement>::=<variableDeclaration>
+            |if'('<expression>')'<statement>
+            |if'('<expression>')'<thenStatement>else<statement>
+            |while'('<expression>')'<statement>
+            |for'('<argument>';'<argument>';'<argument>')'<statement>
+            |<normalStatement>
+
+<thenStatement>::=if'('<expression>')'<thenStatement>else<thenStatement>
+                |while'('<expression>')'<thenStatement>
+                |for'('<argument>';'<argument>';'<argument>')'<thenStatement>
+                |<normalStatement>
+
+<normalStatement>::=do<statement>while'('<expression>')'';'
+                  |<block>
+                  |<expression>';'
+                  |return<expression>';'
+                  |';'
+
+<argument> ::=<expression>
+            |
+
+<block>::='{'<statementList>'}'
+
+<statementList>::=<statement><statementList>
+                |
+
+
+!Expressions
+!-----------
+
+<expression> ::=<expression>','<opSwap>
+              |<opSwap>
+
+<opSwap>::=<opSwap>'<=>'<opAssign>
+         |<opAssign>
+
+<opAssign>::=<opIf>'='<opAssign>
+           |<opIf>
+
+<opIf> ::= <opOr>'?'<opIf>':'<opIf>
+        |<opOr>
+
+<opOr>::=<opOr>'|'<opXor>
+       |<opXor>
+
+<opXor>::=<opXor>'^'<opAnd>
+        |<opAnd>
+
+<opAnd>::=<opAnd>'&'<opEq>
+        |<opEq>
+
+<opEq>::=<opEq>'=='<opCmp>
+       |<opEq>'!='<opCmp>
+       |<opCmp>
+
+<opCmp>::=<opCmp>'<'<opAdd>
+        |<opCmp>'>'<opAdd>
+	|<opCmp>'<>'<opAdd>
+        |<opCmp>'<='<opAdd>
+        |<opCmp>'>='<opAdd>
+        |<opAdd>
+
+<opAdd>::=<opAdd>'+'<opMul>
+        |<opAdd>'-'<opMul>
+        |<opMul>
+
+<opMul>::=<opMul>'*'<opExp>
+        |<opMul>'/'<opExp>
+        |<opMul>'%'<opExp>
+        |<opExp>
+        
+<opExp>::=<opExp>'**'<opUnary>
+        |<opUnary>
+
+<opUnary>::= '!'<opUnary>
+          |'++'<opUnary>
+          |'--'<opUnary>
+          |<opFetch>'--'
+          |<opFetch>'++'
+          |<opFetch>
+
+<opFetch>::=<value> !Čia buvo planuojama realizuoti masyvus - palikta, nes šalinimo metu galėjo atsirasti klaidų, kurių testavimas 
+
+
+<value>::=intLiteral
+        |decLiteral
+        |stringLiteral
+        |id'('<expression>')'
+        |id'('')'
+        |id
+        |'('<expression>')'
+
+            
